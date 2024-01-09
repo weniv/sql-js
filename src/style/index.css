@@ -1,0 +1,36 @@
+@import "./common.css";
+
+#app {
+  width: 80%;
+  margin: 2rem auto;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+#result {
+}
+
+/* table 스타일링 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid var(--ColorSurface);
+  border-radius: 0.4rem;
+  overflow: hidden;
+}
+thead {
+  background-color: var(--ColorPrimary);
+  color: var(--ColorBackground);
+}
+tbody {
+  background-color: var(--ColorActivation);
+  color: var(--ColorSurface);
+}
+th,
+td {
+  border: 1px solid var(--ColorBackground);
+}
