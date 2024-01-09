@@ -5,22 +5,40 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   const db = new SQL.Database();
 
-  let sqlStr =
-    "CREATE TABLE STUDENT (NAME TEXT, AGE INT);\
-    INSERT INTO STUDENT VALUES ('John', 20);\
-    INSERT INTO STUDENT VALUES ('Jane', 21);\
-    INSERT INTO STUDENT VALUES ('Jack', 22);\
-  ";
-  db.run(sqlStr);
+  // create table
+  // csv 파일을 불러와서 table로 만들기
+  const getTableCSV = async (file) => {
+    fetch(`/src/data/${file}.json`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const columns = Object.keys(data[0]);
+        const values = data.map((value) => Object.values(value));
+        const sqlStr = `CREATE TABLE ${file} (${columns.join(
+          " TEXT, "
+        )} TEXT);`;
+        db.run(sqlStr);
+        const stmt = db.prepare(
+          `INSERT INTO ${file} VALUES (${columns.map(() => "?").join(",")})`
+        );
+        values.forEach((value) => stmt.run(value));
+        stmt.free();
+      });
+  };
+  getTableCSV("student");
+  getTableCSV("subject");
+  getTableCSV("professor");
+  getTableCSV("major");
+  getTableCSV("grade");
+  getTableCSV("scholarship");
+  getTableCSV("tuition");
+  getTableCSV("mileage");
+  getTableCSV("invalid_data");
 
-  const stmt = db.prepare(
-    "SELECT * FROM student WHERE NAME=:nameval AND AGE=:ageval"
-  );
-  const result = stmt.getAsObject({ ":nameval": "Jane", ":ageval": 21 });
-  stmt.bind(["Jack", 22]);
-  stmt.free();
-
-  // SELECT * FROM student WHERE AGE >= 21
   const runSQL = (db) => {
     const $inpSql = document.getElementById("inp-sql");
     const res = db.exec($inpSql.value)[0];
