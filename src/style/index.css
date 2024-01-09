@@ -10,27 +10,35 @@
   gap: 1.2rem;
 }
 
-#result {
+.btn-run {
+  background-color: var(--ColorBackground);
+  border-radius: 1rem;
+  border: 1px solid var(--ColorGrayLv2);
+  box-shadow: var(--EffectShadow);
+  padding: 1rem;
+  transition: all 0.2s;
+  &:hover {
+    background-color: var(--ColorGrayLv2);
+  }
 }
 
 /* table 스타일링 */
 table {
+  font-size: 1.1rem;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid var(--ColorSurface);
-  border-radius: 0.4rem;
-  overflow: hidden;
+  border: 1px solid var(--ColorGrayLv2);
 }
 thead {
   background-color: var(--ColorPrimary);
   color: var(--ColorBackground);
 }
 tbody {
-  background-color: var(--ColorActivation);
   color: var(--ColorSurface);
 }
 th,
 td {
-  border: 1px solid var(--ColorBackground);
+  white-space: nowrap;
+  border: 1px solid var(--ColorGrayLv2);
 }
