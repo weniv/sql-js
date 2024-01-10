@@ -18,15 +18,15 @@
   <body>
     <div id="app">
       <h1>SQL ONLINE DEMO</h1>
-      <div class="code-cont">
-        <ul class="table-list"></ul>
-        <textarea name="inp-sql" id="inp-sql" cols="30" rows="10">
+      <ul class="table-list"></ul>
+      <textarea name="inp-sql" id="inp-sql" cols="30" rows="10">
         SELECT * FROM student
-      </textarea
-        >
-      </div>
+      </textarea>
       <button class="btn-run">Run SQL</button>
-      <div id="result"></div>
+      <div id="result">
+        <p class="error"></p>
+        <table class="table"></table>
+      </div>
     </div>
 
     <script src="src/js/script.js"></script>

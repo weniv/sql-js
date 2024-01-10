@@ -56,10 +56,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   getTableCSV("invalid_data");
 
   const runSQL = (db) => {
-    const $inpSql = document.getElementById("inp-sql");
-    const res = db.exec($inpSql.value)[0];
-    // console.log("res", res);
-    getTableResult(res);
+    try {
+      const $inpSql = document.getElementById("inp-sql");
+      const res = db.exec($inpSql.value)[0];
+      res && getTableResult(res);
+
+      const errorDiv = document.querySelector(".error");
+      errorDiv.textContent = "";
+    } catch (e) {
+      const errorDiv = document.querySelector(".error");
+      errorDiv.textContent = e;
+    }
   };
   const $btnRun = document.querySelector(".btn-run");
   $btnRun.addEventListener("click", () => runSQL(db));
@@ -69,8 +76,7 @@ const getTableResult = (data) => {
   const columns = data["columns"];
   const values = data["values"];
 
-  const table =
-    document.querySelector("table") || document.createElement("table");
+  const table = document.querySelector(".table");
   table.innerHTML = "";
   const thead = document.createElement("thead");
   const tbody = document.createElement("tbody");
@@ -94,7 +100,4 @@ const getTableResult = (data) => {
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
-
-  const $result = document.getElementById("result");
-  $result.appendChild(table);
 };
