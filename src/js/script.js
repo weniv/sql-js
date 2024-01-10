@@ -43,6 +43,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
         values.forEach((value) => stmt.run(value));
         stmt.free();
+
+        const dbList = document.querySelector(".db-list");
+        const li = document.createElement("li");
+        li.textContent = file;
+        dbList.appendChild(li);
       });
   };
   getTableCSV("student");
