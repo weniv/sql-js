@@ -10,6 +10,15 @@
   gap: 1.2rem;
 }
 
+.code-cont {
+  width: 100%;
+  display: flex;
+
+  textarea {
+    flex: 1;
+  }
+}
+
 .btn-run {
   background-color: var(--ColorBackground);
   border-radius: 1rem;

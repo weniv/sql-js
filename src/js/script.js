@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // create table
   // csv 파일을 불러와서 table로 만들기
   const getTableCSV = async (file) => {
-    fetch(`/src/data/${file}.json`, {
+    fetch(`./src/data/${file}.json`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -16,11 +16,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        const typeModif = (data) => {
+          switch (typeof data) {
+            case "number":
+              if (Number.isInteger(data)) return "INTEGER";
+              else return "REAL";
+              break;
+            case "boolean":
+              return "INTEGER";
+              break;
+            default:
+              return "TEXT";
+          }
+        };
+
         const columns = Object.keys(data[0]);
         const values = data.map((value) => Object.values(value));
-        const sqlStr = `CREATE TABLE ${file} (${columns.join(
-          " TEXT, "
-        )} TEXT);`;
+        let sqlStr = `CREATE TABLE ${file}`;
+        sqlStr += ` (${columns
+          .map((column, idx) => `${column} ${typeModif(values[0][idx])}`)
+          .join(",")})`;
+
         db.run(sqlStr);
         const stmt = db.prepare(
           `INSERT INTO ${file} VALUES (${columns.map(() => "?").join(",")})`
